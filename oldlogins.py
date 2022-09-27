@@ -53,7 +53,7 @@ with oracledb.connect(user=un, password=pw, dsn=cs) as con:
                         print(filename, file=outputLog) # debug
                         print(schoolcode, file=outputLog) # debug
                         # do a query of all staff who have the building as their homeschool (to avoid duplicates across district) and who are active
-                        cur.execute("SELECT lastfirst, teachernumber, email_addr FROM teachers WHERE homeschoolid = " + schoolcode + " AND schoolid = " + schoolcode + " AND status = 1 AND email_addr IS NOT NULL ORDER BY users_dcid DESC")
+                        cur.execute("SELECT lastfirst, teachernumber, email_addr, loginID, teacherLoginID FROM teachers WHERE homeschoolid = " + schoolcode + " AND schoolid = " + schoolcode + " AND status = 1 AND email_addr IS NOT NULL ORDER BY users_dcid DESC")
                         teachers = cur.fetchall()
                         for count, teacher in enumerate(teachers):
                             try: # do each teacher in try/except blocks so we can skip a user without breaking the whole thing
@@ -66,7 +66,10 @@ with oracledb.connect(user=un, password=pw, dsn=cs) as con:
                                 login = login[0:20] # take only the first 20 characters if their name is longer, as that is the max length for the login field in PS
                                 print(name + ' | ' + login, file=outputLog) # debug
                                 # print the fields out to the output file, duplicate the logins and passwords since there is both teacher and admin side login info
-                                print(name + '\t' + teacherNum + '\t' + login + '\t' + login + '\t' + password + '\t' + password, file=output)
+                                if (teacher[3] == None or teacher[4] == None):
+                                    # print(name + ' has missing login info in PS, writing to file for autocomm')
+                                    print(name + ' has missing login info in PS, writing to file for autocomm', file=outputLog)
+                                    print(name + '\t' + teacherNum + '\t' + login + '\t' + login + '\t' + password + '\t' + password, file=output)
                             except Exception as er:
                                 print("Error on user " + str(teacher[0]) + str(er))
                                 print("Error on user " + str(teacher[0]) + str(er), file=outputLog)
