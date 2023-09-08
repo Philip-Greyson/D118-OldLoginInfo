@@ -19,3 +19,4 @@ known_hosts
 login_log.txt
 student-old-logins.txt
 student_login_log.txt
+staff_login_log.txt
