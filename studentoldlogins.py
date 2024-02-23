@@ -1,3 +1,12 @@
+"""Script to generate the old login fields for staff in PowerSchool, output to school specific files and upload to SFTP server.
+
+https://github.com/Philip-Greyson/D118-OldLoginInfo
+
+Goes through each active or pre-enrolled student, and if they do not have the web login fields populated, outputs their email twice to a file.
+That file is then uploaded to a local SFTP server, where it will be imported into PowerSchool via AutoComm.
+"""
+
+
 # importing module
 import datetime
 import os  # needed for environement variable reading

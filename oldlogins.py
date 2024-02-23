@@ -1,8 +1,11 @@
-# Script to generate the "old login info" for teachers in PS
-# Fills in the login info, and teacher login info which is needed for them
-# to get a PCAS account created, needed for other scripts to populate the Global ID field for SSO.
-# Generates a separate file for each building which will then be autocomm'd into PS so it does not make duplicates of teachers
-# Writing the values directly to the database also does not seem to make the PCAS account but autocomm does
+"""Script to generate the old login fields for staff in PowerSchool, output to school specific files and upload to SFTP server.
+
+https://github.com/Philip-Greyson/D118-OldLoginInfo
+
+Uses two lists of school names and school IDs, goes through each schoool one at a time making a unique output file for each based on the school name.
+Each staff member with that school code as a homeschool gets iterated through, if they dont have the old login fields populated the new username/passwords are output to the file.
+Then each file is uploaded to a local SFTP server, where they will be imported into PowerSchool via AutoComm.
+"""
 
 # importing module
 import datetime
